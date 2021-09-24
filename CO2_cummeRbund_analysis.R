@@ -4,6 +4,10 @@
 # First we have to install the 
 # cummeRbund library
 
+# At some point it will ask
+# you to update all/some/none? [a/s/n]:
+# Type "a" and hit enter.
+
 BiocManager::install("cummeRbund")
 
 # Load needed libraries
