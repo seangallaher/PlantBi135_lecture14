@@ -1,13 +1,16 @@
 # This is an R script to analyze the RNA-Seq data from an analysis of the CCM in Fang et al., TPC 2012
 
-# Set the working directory
-setwd("~/Desktop/PLANTBI_135/CO2_analysis_cummeRbund/CO2_cuffdiff/")
+
+# First we have to install the 
+# cummeRbund library
+
+BiocManager::install("cummeRbund")
 
 # Load needed libraries
 library(cummeRbund)
 
 # Load the raw data into an object called "CO2data"
-cuff<-readCufflinks()
+cuff<-readCufflinks(dir = "RNAseq_data")
 
 # Check that the data has been processed correctly:
 cuff
