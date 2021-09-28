@@ -36,52 +36,132 @@ cuff<-readCufflinks(dir = "RNAseq_data")
 
 cuff
 
+# You should see
+# CuffSet instance with:
+#	 6 samples 
+#	 17741 genes ...
 
 
-# Make a dendrogram of samples
+# Next, we will make a dendrogram of samples.
+# This shows how closely related each sample
+# is to the others. From this, we should
+# be able to see if the CO2 concentration
+# or the cia5 mutant has a larger effect
+# on the overall transcriptome. Try it:
+
 dend<-csDendro(genes(cuff))
 dend
 
-# Make a dendrogram of samples with replicates
-dend.rep<-csDendro(genes(cuff),replicates = TRUE)
-dend.rep
-
-# make a PCA plot of all
-myPCA<-MDSplot(genes(cuff))
-myPCA
-
-# Make a volcano plot of all comparisons
-#csVolcanoMatrix(genes(cuff))
-
-# Check which samples are in the analysis
-samples(genes(cuff))
-
-# Make a volcano plot of specific comparisons
-myVol<-csVolcano(genes(cuff), "WT_HiCO2", "cia5_VLCO2",alpha = 0.05,ylimits = c(0,2))
-myVol
-
-# Create a list of genes
-myGeneIds<-c("Cre02.g097800","Cre16.g662600","Cre03.g162800","Cre04.g223300","Cre06.g309000","Cre02.g112333","Cre05.g236650","Cre06.g273950","Cre04.g223100","Cre08.g367500","Cre03.g151650","Cre09.g399552","Cre07.g321750","Cre11.g477350","Cre08.g367400","Cre04.g223250","Cre10.g439700","Cre26.g756747","Cre16.g651050","Cre16.g685000","Cre05.g248450","Cre05.g248400","Cre03.g204577","Cre12.g555700","Cre07.g321800","Cre10.g426800","Cre06.g281600")
+# Does the mutant or the CO2 concentration have
+# a larger effect? 
 
 
-# Make object for those genes
-myGenes<-getGenes(cuff,myGeneIds)
+# We may want to look at the expression
+# of a specific gene. For example, HLA3 
+# is important for the CCM in Chlamydomonas.
+# The gene ID for HLA3 if Cre02.g097800.
+# We can see what its expression is
+# with the expressionPlot() function:
 
-# Make a heatmap for those genes:
-csHeatmap(myGenes,cluster='both',replicates = TRUE)
+expressionPlot("Cre02.g097800")
 
+# What do you see? When is HLA3 
+# expressed the most?
 
-# Plot one gene at a time:
-myGeneID<-"Cre02.g097800" # HLA3
+# When we used expressionPlot, 
+# we entered the gene ID for HLA3. 
+# In R, it is preferable to use
+# a variable for this so we
+# can use the same code over and over again.
+# Let's create a variable called
+# myGeneID and put the HLA3 gene ID
+# into it:
+
+myGeneID<-"Cre02.g097800" 
+
+# Now we can use expressionPlot()
+# with our new variable:
+
+expressionPlot(myGeneID)
+
+# Now, we can change the value
+# of myGeneID and reuse the same code.
+# Try putting LCI1 (gene ID = Cre03.g162800)
+# into myGeneID:
+
+myGeneID<-"Cre03.g162800" 
+
+# Go back and re-run the line that
+# says expressionPlot(myGeneID)
+
+# Try it with a few more genes:
+
 myGeneID<-"Cre16.g662600" # LCI11C
-myGeneID<-"Cre03.g162800" # LCI1
 myGeneID<-"Cre10.g436550" # LCI5 / EPYC1
 myGeneID<-"Cre06.g284100" # RHP1
 
-myGene<-getGene(cuff,myGeneID)
 
-expressionPlot(myGene,logMode = FALSE)
+# A number of genes were known to code
+# for proteins that are important for 
+# the CCM. I have made a list of their
+# gene IDs. We are going to create 
+# a "vector" of these gene IDs with
+# the c() function:
 
+myGeneIds<-c("Cre02.g097800","Cre16.g662600",
+	"Cre03.g162800","Cre04.g223300",
+	"Cre06.g309000","Cre02.g112333",
+	"Cre05.g236650","Cre06.g273950",
+	"Cre04.g223100","Cre08.g367500",
+	"Cre03.g151650","Cre09.g399552",
+	"Cre07.g321750","Cre11.g477350",
+	"Cre08.g367400","Cre04.g223250",
+	"Cre10.g439700","Cre26.g756747",
+	"Cre16.g651050","Cre16.g685000",
+	"Cre05.g248450","Cre05.g248400",
+	"Cre03.g204577","Cre12.g555700",
+	"Cre07.g321800","Cre10.g426800",
+	"Cre06.g281600")
+
+
+# Make a mini database for just those genes:
+myGenes<-getGenes(cuff,myGeneIds)
+
+# Did it work? Check by looking for
+# the summary info for myGenes:
+
+myGenes
+
+# cummeRbund has a built in fucntion
+# for making heatmaps. Try it for your
+# subset of genes:
+
+csHeatmap(myGenes)
+
+# Another useful function that cummeRbund
+# has is called findSimilar(). You give it
+# one gene ID, and it finds a number of genes
+# with the most similar expression pattern.
+# You can find as many similar genes as you
+# want with the "n =" argument. Let's find
+# the 5 genes whose expression patterns are
+# most similar to HLA3:
+
+
+mySimilar<-findSimilar(cuff,"Cre02.g097800",n = 5)
+
+# Next, plot their expression:
+
+mySimilar.expression<-expressionPlot(mySimilar,logMode=TRUE,showErrorbars=TRUE)
+
+mySimilar.expression
+
+# This data would probably be better as a heatmap.
+
+mySimilar.heatmap<-csHeatmap(mySimilar,cluster='rows')
+mySimilar.heatmap
+
+##################################################
 
 # find significant genes
 mySigGeneIds<-getSig(cuff,alpha=0.01,level='genes')
@@ -121,16 +201,5 @@ length(myCluster)
 # What are their gene IDs
 myClusterGeneIds<-names(myCluster)
 
-# Find and plot 5 genes most similar to HLA3 (Cre02.g097800)
 
-mySimilar<-findSimilar(cuff,"Cre02.g097800",n = 5)
-
-mySimilar.expression<-expressionPlot(mySimilar,logMode=TRUE,showErrorbars=TRUE)
-
-mySimilar.expression
-
-
-# Plot as heatmap
-mySimilar.heatmap<-csHeatmap(mySimilar,cluster='rows')
-mySimilar.heatmap
 
