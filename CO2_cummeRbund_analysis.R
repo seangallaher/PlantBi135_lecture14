@@ -111,6 +111,12 @@ myGeneID<-"Cre16.g662600" # LCI11C
 myGeneID<-"Cre10.g436550" # LCI5 / EPYC1
 myGeneID<-"Cre06.g284100" # RHP1
 
+# Where you able to generate expression
+# plots for each gene ID? 
+# Under which conditions is 
+# RHP1 expressed the most?
+# How about LCI5?
+
 
 # A number of genes were known to code
 # for proteins that are important for 
@@ -119,21 +125,13 @@ myGeneID<-"Cre06.g284100" # RHP1
 # a "vector" of these gene IDs with
 # the c() function:
 
-myGeneIds<-c("Cre02.g097800","Cre16.g662600",
-	"Cre03.g162800","Cre04.g223300",
-	"Cre06.g309000","Cre02.g112333",
-	"Cre05.g236650","Cre06.g273950",
+myGeneIds<-c("Cre03.g162800","Cre04.g223300",
+	"Cre06.g309000","Cre06.g273950",
 	"Cre04.g223100","Cre08.g367500",
-	"Cre03.g151650","Cre09.g399552",
-	"Cre07.g321750","Cre11.g477350",
+  	"Cre09.g399552","Cre06.g281600",
 	"Cre08.g367400","Cre04.g223250",
-	"Cre10.g439700","Cre26.g756747",
-	"Cre16.g651050","Cre16.g685000",
 	"Cre05.g248450","Cre05.g248400",
-	"Cre03.g204577","Cre12.g555700",
-	"Cre07.g321800","Cre10.g426800",
-	"Cre06.g281600")
-
+	"Cre03.g204577","Cre12.g555700")
 
 # Make a mini database for just those genes:
 myGenes<-getGenes(cuff,myGeneIds)
