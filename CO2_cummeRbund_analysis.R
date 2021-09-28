@@ -1,23 +1,42 @@
-# This is an R script to analyze the RNA-Seq data from an analysis of the CCM in Fang et al., TPC 2012
+# This is an R script to analyze 
+# the RNA-Seq data from an analysis 
+# of the carbon concentrating mechanism
+# in Chlamydomonas reinhardtii as
+# described in Fang et al., TPC 2012
+# www.plantcell.org/cgi/doi/10.1105/tpc.112.097949
 
+# For this analysis, we will be using
+# a collection of functions 
+# (i.e. a library) of tools specifically
+# for analyzing RNA-Seq data. It is
+# called cummeRbund, and we load it
+# with the library() function. Notice 
+# the capitol R in the middle. R is 
+# case sensitive, so it matters that 
+# all letters are lower case except for 
+# that R. Here is the command: 
 
-# First we have to install the 
-# cummeRbund library
-
-# At some point it will ask
-# you to update all/some/none? [a/s/n]:
-# Type "a" and hit enter.
-
-BiocManager::install("cummeRbund")
-
-# Load needed libraries
 library(cummeRbund)
 
-# Load the raw data into an object called "CO2data"
+# Next, we need to load the RNA-Seq data.
+# The initial analysis, normalizing the raw
+# reads, has already been completed and 
+# is ready to be loaded into a database
+# for cummeRbund to work with. We will
+# call this database "cuff", and we 
+# will load the data into it with the
+# readCufflinks() function like so:
+
 cuff<-readCufflinks(dir = "RNAseq_data")
 
-# Check that the data has been processed correctly:
+# To check that the data has been processed 
+# correctly, we can type the name of the 
+# database and it should return a brief
+# summary of the data:
+
 cuff
+
+
 
 # Make a dendrogram of samples
 dend<-csDendro(genes(cuff))
@@ -102,33 +121,9 @@ length(myCluster)
 # What are their gene IDs
 myClusterGeneIds<-names(myCluster)
 
-# I get:
-Cre01.g003950	Cre01.g003950
-Cre02.g088551	Cre02.g088551
-Cre02.g097800	HLA3
-Cre03.g162800	LCI1
-Cre03.g204577	DNJ31
-Cre03.g212977	Cre03.g212977
-Cre05.g237800	CYG64
-Cre06.g281600	LCI23
-Cre06.g309000	NAR1.2 (LCIA)
-Cre07.g321750	Cre07.g321750
-Cre07.g321800	Cre07.g321800
-Cre08.g360550	ERM3
-Cre08.g367500	LHCSR3.1
-Cre09.g399552	LCR1
-Cre10.g426800	Cre10.g426800
-Cre11.g477350	Cre11.g477350
-Cre12.g555700	DNAJ15
-Cre16.g662600	LCI11C
-Cre16.g685000	Cre16.g685000
-Cre26.g756747	Cre26.g756747
+# Find and plot 5 genes most similar to HLA3 (Cre02.g097800)
 
-
-# Find and plot 5 genes most similar to HLA3 Cre02.g097800
-
-
-mySimilar<-findSimilar(cuff,"Cre02.g097800",n = 10)
+mySimilar<-findSimilar(cuff,"Cre02.g097800",n = 5)
 
 mySimilar.expression<-expressionPlot(mySimilar,logMode=TRUE,showErrorbars=TRUE)
 
@@ -138,3 +133,4 @@ mySimilar.expression
 # Plot as heatmap
 mySimilar.heatmap<-csHeatmap(mySimilar,cluster='rows')
 mySimilar.heatmap
+
