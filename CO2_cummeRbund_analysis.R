@@ -84,22 +84,28 @@ expressionPlot(myGeneData)
 
 myGeneID<-"Cre02.g097800" 
 
-# Now we can use expressionPlot()
-# with our new variable:
+# Now, we can run a few functions
+# in a row, and repeat those functions
+# with different gene IDs:
 
-expressionPlot(myGeneID)
+myGeneData <- getGene(cuff, myGeneID)
+expressionPlot(myGeneData)
+
 
 # Now, we can change the value
 # of myGeneID and reuse the same code.
 # Try putting LCI1 (gene ID = Cre03.g162800)
-# into myGeneID:
+# into myGeneID, then get the data for
+# it, and plot that as an expression plot:
 
 myGeneID<-"Cre03.g162800" 
+myGeneData <- getGene(cuff, myGeneID)
+expressionPlot(myGeneData)
 
-# Go back and re-run the line that
-# says expressionPlot(myGeneID)
-
-# Try it with a few more genes:
+# Now we can re-run our code
+# with each gene by putting its
+# gene ID into the myGeneID variable,
+# and re-running the lines above:
 
 myGeneID<-"Cre16.g662600" # LCI11C
 myGeneID<-"Cre10.g436550" # LCI5 / EPYC1
@@ -166,45 +172,7 @@ mySimilar.expression
 mySimilar.heatmap<-csHeatmap(mySimilar,cluster='rows')
 mySimilar.heatmap
 
-##################################################
 
-# find significant genes
-mySigGeneIds<-getSig(cuff,alpha=0.01,level='genes')
-
-# How many significant genes are there?
-length(mySigGeneIds)
-
-# Create an object of only significant genes
-mySigGenes<-getGenes(cuff,mySigGeneIds)
-
-
-
-
-# Get FPKMs for significant genes
-mySigFpkms<-fpkmMatrix(mySigGenes)
-
-
-# Filter significant genes to remove any with less than 10 FPKMs
-mySigMinGeneIds<-row.names(subset(mySigFpkms, (apply(mySigFpkms,1,max) > 10)))
-
-# Create object with significant genes with >10 FPKMs
-mySigMinGenes<-getGenes(cuff,mySigMinGeneIds)
-
-# K-means clustering
-myKclusters<-csCluster(mySigMinGenes, k = 16)
-
-# plot K-means clusters
-myKplot<-csClusterPlot(myKclusters)
-myKplot
-
-# Cluster 10 seems the most interesting. Isolate those gene IDs
-myCluster<-subset(myKclusters$clustering, myKclusters$clustering == 10)
-
-# How many are in this cluster
-length(myCluster)
-
-# What are their gene IDs
-myClusterGeneIds<-names(myCluster)
-
+# Congratulations! You are now analyzing RNA-Seq data with R!!!
 
 
