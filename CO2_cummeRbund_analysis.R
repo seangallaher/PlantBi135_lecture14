@@ -60,10 +60,15 @@ dend
 # of a specific gene. For example, HLA3 
 # is important for the CCM in Chlamydomonas.
 # The gene ID for HLA3 if Cre02.g097800.
-# We can see what its expression is
+# First, we need to get the expression
+# data for that out of the cuff database:
+
+myGeneData <- getGene(cuff, "Cre02.g097800")
+
+# Next, we can see what its expression is
 # with the expressionPlot() function:
 
-expressionPlot("Cre02.g097800")
+expressionPlot(myGeneData)
 
 # What do you see? When is HLA3 
 # expressed the most?
