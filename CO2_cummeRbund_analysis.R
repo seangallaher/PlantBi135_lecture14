@@ -19,7 +19,8 @@
 library(cummeRbund)
 
 # Next, we need to load the RNA-Seq data.
-# The initial analysis, normalizing the raw
+# The initial analysis, which includes
+# mapping and normalizing the raw
 # reads, has already been completed and 
 # is ready to be loaded into a database
 # for cummeRbund to work with. We will
@@ -27,7 +28,7 @@ library(cummeRbund)
 # will load the data into it with the
 # readCufflinks() function like so:
 
-cuff<-readCufflinks(dir = "RNAseq_data")
+cuff<-readCufflinks(dir = "~/PlantBi135_lecture14/RNAseq_data/")
 
 # To check that the data has been processed 
 # correctly, we can type the name of the 
@@ -39,7 +40,7 @@ cuff
 # You should see
 # CuffSet instance with:
 #	 6 samples 
-#	 17741 genes ...
+#	 17741 genes etc...
 
 
 # Next, we will make a dendrogram of samples.
@@ -73,7 +74,15 @@ expressionPlot(myGeneData)
 # What do you see? When is HLA3 
 # expressed the most?
 
-# When we used expressionPlot, 
+# We can modify how the expression plot
+# is drawn with arguments. For example:
+
+expressionPlot(myGeneData,
+               logMode = TRUE,
+               showErrorbars = FALSE)
+
+
+# When we used getGene(), 
 # we entered the gene ID for HLA3. 
 # In R, it is preferable to use
 # a variable for this so we
@@ -99,7 +108,9 @@ expressionPlot(myGeneData)
 # it, and plot that as an expression plot:
 
 myGeneID<-"Cre03.g162800" 
+
 myGeneData <- getGene(cuff, myGeneID)
+
 expressionPlot(myGeneData)
 
 # Now we can re-run our code
@@ -128,7 +139,7 @@ myGeneID<-"Cre06.g284100" # RHP1
 myGeneIds<-c("Cre03.g162800","Cre04.g223300",
 	"Cre06.g309000","Cre06.g273950",
 	"Cre04.g223100","Cre08.g367500",
-  	"Cre09.g399552","Cre06.g281600",
+  "Cre09.g399552","Cre06.g281600",
 	"Cre08.g367400","Cre04.g223250",
 	"Cre05.g248450","Cre05.g248400",
 	"Cre03.g204577","Cre12.g555700")
